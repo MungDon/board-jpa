@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<table>
+		<tr>
+			<th>글번호</th>
+			<th>제목</th>
+			<th>작성자</th>
+		</tr>
+		<tr th:if="${!#lists.isEmpty(list)}" th:each="list, loop: ${list}">
+			<td th:text="${loop.count}"></td>
+			<td>
+				<a th:href="@{|/board/detail/${list}|}">
+					<span th:text="${list.title}"></span>
+				</a>
+			</td>
+			<td th:text="${list.writer}"></td>
+		</tr>
+	</table>
+</body>
+</html>

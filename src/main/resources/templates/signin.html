@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form th:action="@{/user/signin}" method="post">
+		<div th:if=${param.error}>
+			<div>
+				<p>입력정보틀림 ㅋ</p>
+			</div>
+		</div>
+		<input type="text" name="userName" placeholder="회원명"/>
+		<input type="password" name="password" placeholder="비밀번호"/>
+		<button type="submit">로그인</button>
+	</form>
+</body>
+</html>
