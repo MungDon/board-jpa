@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<header th:fragment="header">
+	<table>
+		<tr>
+			<td>
+				<a sec:authorize="isAnonymous()" href="/user/signup">회원가입</a>
+			</td>
+			<td>
+				<a sec:authorize="isAnonymous()" href="/user/signin">로그인</a>
+			</td>
+			<td>
+				<a sec:authorize="isAuthenticated()" href="/user/logout">로그아웃</a>
+			</td>
+			<td>
+				<a sec:authorize="isAuthenticated()" href="/user/detail">회원정보</a>
+			</td>
+			<td>
+				<a  href="/board/list">게시글</a>
+			</td>
+		</tr>
+	</table>
+</header>
+</body>
+</html>

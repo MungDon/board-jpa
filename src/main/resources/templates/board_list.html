@@ -1,26 +1,53 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+.disabled {
+	pointer-events: none; /* 클릭 이벤트 비활성화 */
+	opacity: 0.6; /* 비활성화된 링크를 투명하게 표시 */
+	cursor: default; /* 기본 커서 스타일 */
+}
+
+.paging {
+	display: flex;
+	flex-direction: row;
+	margin-top : 50px;
+}
+</style>
 </head>
 <body>
+<header th:replace="~{header :: header}"></header>
 	<table>
 		<tr>
 			<th>글번호</th>
 			<th>제목</th>
 			<th>작성자</th>
 		</tr>
-		<tr th:if="${!#lists.isEmpty(list)}" th:each="list, loop: ${list}">
-			<td th:text="${loop.count}"></td>
-			<td>
-				<a th:href="@{|/board/detail/${list}|}">
-					<span th:text="${list.title}"></span>
-				</a>
-			</td>
+		<tr th:if="${!#lists.isEmpty(pagingList)}"
+			th:each="list, loop: ${pagingList}">
+			<td
+				th:text="${pagingList.getTotalElements - (pagingList.number * pagingList.size) - loop.index}"></td>
+			<td><a th:href="@{|/board/detail/${list.board_sid}|}"> <span
+					th:text="${list.title}"></span>
+			</a></td>
 			<td th:text="${list.writer}"></td>
 		</tr>
 	</table>
+	<a href="/board/add">글 등록</a>
+	<div th:if="${!pagingList.isEmpty()}" class="paging">
+		<a th:classappend="${!pagingList.hasPrevious} ? 'disabled'"
+			th:href="@{/board/list(page=${pagingList.number-1})}"><span>이전</span></a>
+			
+		<a th:each="page : ${#numbers.sequence(0,pagingList.totalPages-1)}"
+			th:if="${page >= pagingList.number-5 and page <= pagingList.number+5}"
+			th:classappend="${page == pagingList.number} ? 'active'"
+			th:href="@{/board/list(page=${page+1})}" th:text="${page+1}"></a> 
+			
+		<a th:classappend="${!pagingList.hasNext} ? 'disabled'"
+			th:href="@{/board/list(page=${pagingList.number+1})}"><span>다음</span></a>
+	</div>
 </body>
 </html>

@@ -9,8 +9,8 @@
 		<!-- 에러 메세지 -->
 		<div th:replace="~{form_errors :: formErrorsFragment}"></div>
 		
-		<input type="text" th:field="*{title}" >
-		<textarea th:field="*{content}" rows="5"></textarea>
+		글제목<input type="text" th:field="*{title}"><br><br>
+		글내용<textarea th:field="*{content}" rows="5"></textarea>
 		<button type="submit">등록</button>
 	</form>
 </body>

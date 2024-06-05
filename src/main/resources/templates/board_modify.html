@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form th:action="@{/board/modify}" method="post" th:object="${reqBoardModify}">
+		<!-- 에러 메세지 -->
+		<div th:replace="~{form_errors :: formErrorsFragment}"></div>
+		<input type="hidden" th:field="*{board_sid}">
+		글제목<input type="text" th:field="*{title}" >
+		글수정<textarea th:field="*{content}" rows="5" ></textarea>
+		<button type="submit">수정</button>
+	</form>
+</body>
+</html>

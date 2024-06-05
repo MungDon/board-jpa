@@ -3,7 +3,10 @@ package com.example.ex.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.example.ex.dto.request.ReqMemberModify;
+
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,6 +26,7 @@ public class Member {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long memberSid;				// 회원 시퀀스
 			
+	@Column(unique = true)
 	private String userName;				// 회원명
 	
 	private String password;				// 비밀번호
@@ -55,4 +59,19 @@ public class Member {
 		this.deleteYn = deleteYn;
 	}
 
+	/*회원 수정*/
+	public void update(ReqMemberModify req) {
+		this.email = req.getEmail();
+		this.country = req.getCountry();
+	}
+	
+	/*비번 수정*/
+	public void updatePassword(String password) {
+		this.password = password;
+	}
+	
+	/*회원탈퇴(논리)*/
+	public void delete() {
+		this.deleteYn = "Y";
+	}
 }

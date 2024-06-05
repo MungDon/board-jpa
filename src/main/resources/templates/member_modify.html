@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+		<form th:action="@{/user/modify}" method="post" th:object="${reqMemberModify}">
+		<!-- 에러 메세지 -->
+		<div th:replace="~{form_errors :: formErrorsFragment}"></div>
+		
+		<!-- 회원가입 입력정보 -->
+		<input type="email" th:field="*{email}" required="required" placeholder="이메일주소"/><br>
+		<input type="hidden" th:field="*{userName}">
+		<label for="country">국가</label>
+		<select th:field="*{country}" id="country">
+			<option value="korea">대한민국</option>
+			<option value="usa">미국</option>
+			<option value="canada">캐다나</option>
+		</select>
+		<br><br>
+		<label>취미 : </label>
+		<input type="checkbox" th:field="*{hobbies}" id="hobby1" value="sport">
+		<label for="hobby1">운동</label>
+		
+		<input type="checkbox" th:field="*{hobbies}" id="hobby2" value="reading">
+		<label for="hobby2">독서</label>
+		
+		<input type="checkbox" th:field="*{hobbies}" id="hobby3" value="traveling">
+		<label for="hobby3">여행</label>
+		
+		<input type="checkbox" th:field="*{hobbies}" id="hobby4" value="game">
+		<label for="hobby4">게임</label><br>
+		<br><br>
+		<button type="submit" >수정</button>
+	</form>
+</body>
+</html>

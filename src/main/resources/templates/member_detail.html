@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+	<table>
+		<tr>
+			<th>회원명</th>
+			<td th:text="${member.userName}"></td>
+			<th>이메일</th>
+			<td th:text="${member.email}"></td>
+		</tr>
+		<tr>
+			<th>성별</th>
+			<td th:text="${member.gender}"></td>
+			<th>국적</th>
+			<td th:text="${member.country}"></td>
+		</tr>
+		<tr>
+			<th>취미</th>
+			<td th:each="hobby : ${member.hobbies}">
+				<span th:text="${hobby}"></span>
+			</td>
+		</tr>
+	</table>
+	<a href="/user/modify">회원정보수정</a>
+	<a sec:authorize="isAuthenticated()" href="/user/change/pw">비번 변경</a>
+	<button type="button" class="deleteBtn" th:value="${member.member_sid}">탈퇴하기</button>
+	<script>
+		$(function(){
+	        let csrfToken = $("meta[name='_csrf']").attr("content");
+	        let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+			$(document).on("click", ".deleteBtn", function(){
+				const member_sid = $(this).val();
+				console.log(member_sid);
+				if(!confirm("정말 탈퇴 하시겠습니까?")){
+					return false;
+				};
+				$.ajax({
+						type : 'delete',
+						async : false,
+						url: '/user/delete',
+						data: {
+							member_sid : member_sid
+						},
+			            beforeSend: function(xhr) {
+			                // CSRF 토큰을 요청 헤더에 포함
+			                xhr.setRequestHeader(csrfHeader, csrfToken);
+			            },
+						success: function () {
+					   	 alert('탈퇴되었습니다.');
+					   	 location.href="/board/list";
+					   	
+						}, error: function () {
+							alert("탈퇴 실패");
+						}
+				});
+			});
+		});
+	</script>
+</body>
+</html>
